@@ -89,6 +89,23 @@ namespace System.ServiceModel.Channels
 		public Dictionary<string,string> Parameters {
 			get { return parameters; }
 		}
+		public override string ToString()
+	        {
+	            StringBuilder sb = new StringBuilder();
+	            sb.Append(mediaType);
+	            foreach (var param in parameters)
+	            {
+	                sb.Append("; ");
+	                sb.Append(param.Key);
+	                sb.Append("=");
+	                // Quote values containing special characters or for specific parameters like 'type'
+	                if (param.Key == "type" || param.Value.Contains("/") || param.Value.Contains(";"))
+	                    sb.Append($"\"{param.Value}\"");
+	                else
+	                    sb.Append(param.Value);
+	            }
+	            return sb.ToString();
+	        }
 	}
 }
 
